@@ -1,0 +1,25 @@
+source 'https://rubygems.org'
+
+ruby '3.1.2'
+
+gem 'rails', '~> 5.2.8'
+gem 'pg', '~> 1.1'
+gem 'puma', '~> 3.12'
+gem 'sidekiq', '~> 6.5'
+
+# JSON API
+gem 'jbuilder', '~> 2.7'
+
+# Background jobs
+gem 'redis', '~> 4.0'
+
+# Payment processing
+gem 'stripe', '~> 7.0'
+
+# Email
+gem 'sendgrid-ruby', '~> 6.6'
+
+group :development, :test do
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 5.0'
+end
