@@ -1,0 +1,24 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+.vs/
+.vscode/
+
+## Spec2Cloud
+specs/
+*.spec.json
+
+## SQUAD
+.squad/
+
+## Node.js
+node_modules/
+package-lock.json
+
+## Windows
+Thumbs.db
+Desktop.ini
