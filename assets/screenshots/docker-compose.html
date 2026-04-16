@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>docker-compose.yml — UrbanNest Infrastructure</title>
+<style>
+  body { margin:0; padding:32px; background:#1e1e2e; font-family:'Cascadia Code','Fira Code',monospace; }
+  .header { color:#cdd6f4; font-size:13px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .badge { background:#f38ba8; color:#1e1e2e; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+  .badge-blue { background:#89b4fa; }
+  pre { margin:0; padding:24px; background:#181825; border-radius:8px; border:1px solid #313244; overflow-x:auto; line-height:1.6; font-size:14px; }
+  .kw { color:#cba6f7; }  /* keyword / key */
+  .str { color:#a6e3a1; } /* string value */
+  .num { color:#fab387; } /* number */
+  .cmt { color:#6c7086; font-style:italic; } /* comment */
+  .sec { color:#89b4fa; } /* section / service name */
+  .punc { color:#6c7086; } /* punctuation */
+  code { color:#cdd6f4; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="badge">YAML</span>
+  <span class="badge badge-blue">Infrastructure</span>
+  docker-compose.yml — UrbanNest Dev Environment
+</div>
+<pre><code><span class="kw">version</span><span class="punc">:</span> <span class="str">'3.8'</span>
+
+<span class="kw">services</span><span class="punc">:</span>
+  <span class="sec">postgres</span><span class="punc">:</span>
+    <span class="kw">image</span><span class="punc">:</span> <span class="str">postgres:16</span>
+    <span class="kw">environment</span><span class="punc">:</span>
+      <span class="kw">POSTGRES_DB</span><span class="punc">:</span> <span class="str">urbannest_dev</span>
+      <span class="kw">POSTGRES_USER</span><span class="punc">:</span> <span class="str">urbannest</span>
+      <span class="kw">POSTGRES_PASSWORD</span><span class="punc">:</span> <span class="str">password</span>
+    <span class="kw">ports</span><span class="punc">:</span>
+      <span class="punc">-</span> <span class="str">"5432:5432"</span>
+    <span class="kw">volumes</span><span class="punc">:</span>
+      <span class="punc">-</span> <span class="str">postgres_data:/var/lib/postgresql/data</span>
+
+  <span class="sec">redis</span><span class="punc">:</span>
+    <span class="kw">image</span><span class="punc">:</span> <span class="str">redis:7-alpine</span>
+    <span class="kw">ports</span><span class="punc">:</span>
+      <span class="punc">-</span> <span class="str">"6379:6379"</span>
+
+<span class="kw">volumes</span><span class="punc">:</span>
+  <span class="sec">postgres_data</span><span class="punc">:</span></code></pre>
+</body>
+</html>

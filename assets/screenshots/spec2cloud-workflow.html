@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spec2Cloud × SQUAD — Integration Workflow</title>
+<style>
+  body { margin:0; padding:32px; background:#1e1e2e; font-family:'Cascadia Code','Fira Code',monospace; color:#cdd6f4; }
+  .header { font-size:13px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .badge { background:#cba6f7; color:#1e1e2e; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+  .badge-green { background:#a6e3a1; }
+  .flow { background:#181825; border-radius:8px; border:1px solid #313244; padding:24px; line-height:1.8; font-size:14px; }
+  .phase { color:#89b4fa; font-weight:700; }
+  .agent { color:#f9e2af; }
+  .action { color:#a6e3a1; }
+  .arrow { color:#6c7086; }
+  .spec { color:#cba6f7; font-style:italic; }
+  .highlight { color:#f38ba8; }
+  .section { margin-bottom:16px; padding-bottom:16px; border-bottom:1px dashed #313244; }
+  .section:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  h3 { margin:0 0 8px; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="badge">Workflow</span>
+  <span class="badge badge-green">Integration</span>
+  Spec2Cloud × SQUAD — 5-Phase Pipeline
+</div>
+<div class="flow">
+
+<div class="section">
+<h3><span class="phase">PHASE 1 — SPEC REVIEW</span> 📜</h3>
+<span class="arrow">  ├──</span> <span class="action">Architecture diagrams reviewed</span><br>
+<span class="arrow">  ├──</span> <span class="action">4 OpenAPI specs examined</span> <span class="highlight">(50+ endpoints)</span><br>
+<span class="arrow">  ├──</span> <span class="action">Business rules documented</span><br>
+<span class="arrow">  ├──</span> <span class="action">Data schema defined</span> <span class="spec">(PostgreSQL 16)</span><br>
+<span class="arrow">  └──</span> <span class="action">Integration contracts ready</span> <span class="spec">(Stripe, SendGrid)</span>
+</div>
+
+<div class="section">
+<h3><span class="phase">PHASE 2 — BRAIN PLANNING</span> 🧠</h3>
+<span class="arrow">  ├──</span> <span class="agent">Brain</span> <span class="action">reads</span> <span class="spec">spec/api/properties-api.yaml</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Brain</span> <span class="action">creates work items with spec references</span><br>
+<span class="arrow">  └──</span> <span class="agent">Brain</span> <span class="action">estimates effort from spec complexity</span>
+</div>
+
+<div class="section">
+<h3><span class="phase">PHASE 3 — HANDS IMPLEMENTATION</span> 🔨</h3>
+<span class="arrow">  ├──</span> <span class="agent">Hands</span> <span class="action">generates NestJS controllers from OpenAPI</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Hands</span> <span class="action">implements business rules from specs</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Hands</span> <span class="action">matches response schemas exactly</span><br>
+<span class="arrow">  └──</span> <span class="agent">Hands</span> <span class="action">builds Python analytics per integration spec</span>
+</div>
+
+<div class="section">
+<h3><span class="phase">PHASE 4 — EYES VALIDATION</span> 👁️</h3>
+<span class="arrow">  ├──</span> <span class="agent">Eyes</span> <span class="action">validates API responses vs OpenAPI schema</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Eyes</span> <span class="action">checks business rules match specification</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Eyes</span> <span class="action">verifies data model matches PostgreSQL schema</span><br>
+<span class="arrow">  └──</span> <span class="agent">Eyes</span> <span class="action">confirms integration contracts honored</span>
+</div>
+
+<div class="section">
+<h3><span class="phase">PHASE 5 — MOUTH DOCUMENTATION</span> 💬</h3>
+<span class="arrow">  ├──</span> <span class="agent">Mouth</span> <span class="action">references spec sections in docs</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Mouth</span> <span class="action">documents deviations with rationale</span><br>
+<span class="arrow">  ├──</span> <span class="agent">Mouth</span> <span class="action">extends specs with implementation notes</span><br>
+<span class="arrow">  └──</span> <span class="agent">Mouth</span> <span class="action">maintains spec-to-code traceability</span>
+</div>
+
+</div>
+</body>
+</html>

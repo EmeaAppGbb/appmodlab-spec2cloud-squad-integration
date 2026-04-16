@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Domain Models — UrbanNest Legacy</title>
+<style>
+  body { margin:0; padding:32px; background:#1e1e2e; font-family:'Cascadia Code','Fira Code',monospace; }
+  .header { color:#cdd6f4; font-size:13px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .badge { background:#f38ba8; color:#1e1e2e; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+  .badge-peach { background:#fab387; }
+  .divider { border:0; border-top:1px dashed #313244; margin:20px 0; }
+  .file-label { color:#89b4fa; font-size:12px; margin:8px 0 4px; }
+  pre { margin:0; padding:24px; background:#181825; border-radius:8px; border:1px solid #313244; overflow-x:auto; line-height:1.6; font-size:13px; margin-bottom:16px; }
+  .kw { color:#cba6f7; }
+  .str { color:#a6e3a1; }
+  .fn { color:#89b4fa; }
+  .cls { color:#f9e2af; }
+  .sym { color:#f9e2af; }
+  .cmt { color:#6c7086; font-style:italic; }
+  .num { color:#fab387; }
+  code { color:#cdd6f4; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="badge">Ruby</span>
+  <span class="badge badge-peach">Models</span>
+  UrbanNest Domain Models — Property, Lease, Tenant, MaintenanceRequest
+</div>
+
+<div class="file-label">📄 legacy/app/models/property.rb</div>
+<pre><code><span class="kw">class</span> <span class="cls">Property</span> &lt; <span class="cls">ApplicationRecord</span>
+  <span class="fn">has_many</span> <span class="sym">:leases</span>
+  <span class="fn">has_many</span> <span class="sym">:maintenance_requests</span>
+  <span class="fn">belongs_to</span> <span class="sym">:owner</span>
+
+  <span class="fn">validates</span> <span class="sym">:address</span>, <span class="sym">:city</span>, <span class="sym">:state</span>, <span class="sym">:zip_code</span>, <span class="sym">:monthly_rent</span>, <span class="fn">presence:</span> <span class="kw">true</span>
+  <span class="fn">validates</span> <span class="sym">:property_type</span>, <span class="fn">inclusion:</span> { <span class="fn">in:</span> <span class="str">%w[apartment house condo townhouse]</span> }
+
+  <span class="fn">scope</span> <span class="sym">:available</span>, -&gt; { where(<span class="fn">is_available:</span> <span class="kw">true</span>) }
+  <span class="fn">scope</span> <span class="sym">:in_city</span>, -&gt;(city) { where(<span class="fn">city:</span> city) }
+<span class="kw">end</span></code></pre>
+
+<div class="file-label">📄 legacy/app/models/lease.rb</div>
+<pre><code><span class="kw">class</span> <span class="cls">Lease</span> &lt; <span class="cls">ApplicationRecord</span>
+  <span class="fn">belongs_to</span> <span class="sym">:property</span>
+  <span class="fn">belongs_to</span> <span class="sym">:tenant</span>
+
+  <span class="fn">validates</span> <span class="sym">:start_date</span>, <span class="sym">:end_date</span>, <span class="sym">:monthly_rent</span>, <span class="fn">presence:</span> <span class="kw">true</span>
+  <span class="fn">validates</span> <span class="sym">:status</span>, <span class="fn">inclusion:</span> { <span class="fn">in:</span> <span class="str">%w[active expired terminated]</span> }
+
+  <span class="fn">scope</span> <span class="sym">:active</span>, -&gt; { where(<span class="fn">status:</span> <span class="str">'active'</span>) }
+  <span class="fn">scope</span> <span class="sym">:expiring_soon</span>, -&gt; { where(<span class="str">'end_date &lt;= ?'</span>, <span class="num">60</span>.days.from_now).where(<span class="fn">status:</span> <span class="str">'active'</span>) }
+
+  <span class="kw">def</span> <span class="fn">calculate_total_cost</span>
+    months = ((end_date - start_date) / <span class="num">30</span>).ceil
+    monthly_rent * months
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">is_renewable?</span>
+    end_date &gt; <span class="num">30</span>.days.from_now &amp;&amp; status == <span class="str">'active'</span>
+  <span class="kw">end</span>
+<span class="kw">end</span></code></pre>
+
+<div class="file-label">📄 legacy/app/models/tenant.rb</div>
+<pre><code><span class="kw">class</span> <span class="cls">Tenant</span> &lt; <span class="cls">ApplicationRecord</span>
+  <span class="fn">has_many</span> <span class="sym">:leases</span>
+  <span class="fn">has_many</span> <span class="sym">:tenant_applications</span>
+  <span class="fn">has_many</span> <span class="sym">:maintenance_requests</span>
+
+  <span class="fn">validates</span> <span class="sym">:first_name</span>, <span class="sym">:last_name</span>, <span class="sym">:email</span>, <span class="sym">:phone</span>, <span class="fn">presence:</span> <span class="kw">true</span>
+  <span class="fn">validates</span> <span class="sym">:email</span>, <span class="fn">uniqueness:</span> <span class="kw">true</span>, <span class="fn">format:</span> { <span class="fn">with:</span> <span class="cls">URI::MailTo::EMAIL_REGEXP</span> }
+
+  <span class="kw">def</span> <span class="fn">full_name</span>
+    <span class="str">"#{first_name} #{last_name}"</span>
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">active_leases</span>
+    leases.where(<span class="fn">status:</span> <span class="str">'active'</span>)
+  <span class="kw">end</span>
+<span class="kw">end</span></code></pre>
+
+<div class="file-label">📄 legacy/app/models/maintenance_request.rb</div>
+<pre><code><span class="kw">class</span> <span class="cls">MaintenanceRequest</span> &lt; <span class="cls">ApplicationRecord</span>
+  <span class="fn">belongs_to</span> <span class="sym">:property</span>
+  <span class="fn">belongs_to</span> <span class="sym">:tenant</span>
+  <span class="fn">belongs_to</span> <span class="sym">:vendor</span>, <span class="fn">optional:</span> <span class="kw">true</span>
+
+  <span class="fn">validates</span> <span class="sym">:category</span>, <span class="sym">:priority</span>, <span class="sym">:description</span>, <span class="fn">presence:</span> <span class="kw">true</span>
+  <span class="fn">validates</span> <span class="sym">:category</span>, <span class="fn">inclusion:</span> { <span class="fn">in:</span> <span class="str">%w[plumbing electrical hvac appliance other]</span> }
+  <span class="fn">validates</span> <span class="sym">:priority</span>, <span class="fn">inclusion:</span> { <span class="fn">in:</span> <span class="str">%w[low medium high emergency]</span> }
+  <span class="fn">validates</span> <span class="sym">:status</span>, <span class="fn">inclusion:</span> { <span class="fn">in:</span> <span class="str">%w[open assigned in_progress completed closed]</span> }
+
+  <span class="fn">scope</span> <span class="sym">:open</span>, -&gt; { where(<span class="fn">status:</span> <span class="str">'open'</span>) }
+  <span class="fn">scope</span> <span class="sym">:high_priority</span>, -&gt; { where(<span class="fn">priority:</span> <span class="str">%w[high emergency]</span>) }
+
+  <span class="fn">after_create</span> <span class="sym">:notify_property_manager</span>
+
+  <span class="kw">private</span>
+
+  <span class="kw">def</span> <span class="fn">notify_property_manager</span>
+    <span class="cmt"># Send notification to property manager</span>
+    <span class="cls">MaintenanceMailer</span>.request_created(<span class="kw">self</span>).deliver_later
+  <span class="kw">end</span>
+<span class="kw">end</span></code></pre>
+</body>
+</html>

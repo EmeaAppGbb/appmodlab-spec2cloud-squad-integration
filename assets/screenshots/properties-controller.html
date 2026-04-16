@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PropertiesController — Legacy CRUD API</title>
+<style>
+  body { margin:0; padding:32px; background:#1e1e2e; font-family:'Cascadia Code','Fira Code',monospace; }
+  .header { color:#cdd6f4; font-size:13px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .badge { background:#f38ba8; color:#1e1e2e; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+  .badge-teal { background:#94e2d5; }
+  pre { margin:0; padding:24px; background:#181825; border-radius:8px; border:1px solid #313244; overflow-x:auto; line-height:1.6; font-size:14px; }
+  .kw { color:#cba6f7; }
+  .str { color:#a6e3a1; }
+  .fn { color:#89b4fa; }
+  .cls { color:#f9e2af; }
+  .sym { color:#f9e2af; }
+  .cmt { color:#6c7086; font-style:italic; }
+  .num { color:#fab387; }
+  code { color:#cdd6f4; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="badge">Ruby</span>
+  <span class="badge badge-teal">Controller</span>
+  legacy/app/controllers/properties_controller.rb
+</div>
+<pre><code><span class="kw">class</span> <span class="cls">PropertiesController</span> &lt; <span class="cls">ApplicationController</span>
+  <span class="fn">before_action</span> <span class="sym">:set_property</span>, <span class="fn">only:</span> [<span class="sym">:show</span>, <span class="sym">:update</span>, <span class="sym">:destroy</span>]
+
+  <span class="kw">def</span> <span class="fn">index</span>
+    <span class="sym">@properties</span> = <span class="cls">Property</span>.available
+    <span class="fn">render</span> <span class="fn">json:</span> <span class="sym">@properties</span>
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">show</span>
+    <span class="fn">render</span> <span class="fn">json:</span> <span class="sym">@property</span>
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">create</span>
+    <span class="sym">@property</span> = <span class="cls">Property</span>.<span class="kw">new</span>(property_params)
+    <span class="kw">if</span> <span class="sym">@property</span>.save
+      <span class="fn">render</span> <span class="fn">json:</span> <span class="sym">@property</span>, <span class="fn">status:</span> <span class="sym">:created</span>
+    <span class="kw">else</span>
+      <span class="fn">render</span> <span class="fn">json:</span> <span class="sym">@property</span>.errors, <span class="fn">status:</span> <span class="sym">:unprocessable_entity</span>
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">update</span>
+    <span class="kw">if</span> <span class="sym">@property</span>.update(property_params)
+      <span class="fn">render</span> <span class="fn">json:</span> <span class="sym">@property</span>
+    <span class="kw">else</span>
+      <span class="fn">render</span> <span class="fn">json:</span> <span class="sym">@property</span>.errors, <span class="fn">status:</span> <span class="sym">:unprocessable_entity</span>
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">destroy</span>
+    <span class="sym">@property</span>.destroy
+    <span class="fn">head</span> <span class="sym">:no_content</span>
+  <span class="kw">end</span>
+
+  <span class="kw">private</span>
+
+  <span class="kw">def</span> <span class="fn">set_property</span>
+    <span class="sym">@property</span> = <span class="cls">Property</span>.find(params[<span class="sym">:id</span>])
+  <span class="kw">end</span>
+
+  <span class="kw">def</span> <span class="fn">property_params</span>
+    params.require(<span class="sym">:property</span>).permit(
+      <span class="sym">:address</span>, <span class="sym">:city</span>, <span class="sym">:state</span>, <span class="sym">:zip_code</span>, <span class="sym">:property_type</span>,
+      <span class="sym">:bedrooms</span>, <span class="sym">:bathrooms</span>, <span class="sym">:square_feet</span>, <span class="sym">:monthly_rent</span>, <span class="sym">:is_available</span>
+    )
+  <span class="kw">end</span>
+<span class="kw">end</span></code></pre>
+</body>
+</html>

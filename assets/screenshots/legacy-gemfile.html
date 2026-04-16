@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gemfile — Legacy Rails 5 Dependencies</title>
+<style>
+  body { margin:0; padding:32px; background:#1e1e2e; font-family:'Cascadia Code','Fira Code',monospace; }
+  .header { color:#cdd6f4; font-size:13px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .badge { background:#f38ba8; color:#1e1e2e; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+  .badge-yellow { background:#f9e2af; }
+  pre { margin:0; padding:24px; background:#181825; border-radius:8px; border:1px solid #313244; overflow-x:auto; line-height:1.6; font-size:14px; }
+  .kw { color:#cba6f7; }
+  .str { color:#a6e3a1; }
+  .cmt { color:#6c7086; font-style:italic; }
+  .fn { color:#89b4fa; }
+  .sym { color:#f9e2af; }
+  code { color:#cdd6f4; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="badge">Ruby</span>
+  <span class="badge badge-yellow">Legacy</span>
+  legacy/Gemfile — Rails 5.2 UrbanNest Dependencies
+</div>
+<pre><code><span class="fn">source</span> <span class="str">'https://rubygems.org'</span>
+
+<span class="fn">ruby</span> <span class="str">'3.1.2'</span>
+
+<span class="fn">gem</span> <span class="str">'rails'</span>, <span class="str">'~&gt; 5.2.8'</span>
+<span class="fn">gem</span> <span class="str">'pg'</span>, <span class="str">'~&gt; 1.1'</span>
+<span class="fn">gem</span> <span class="str">'puma'</span>, <span class="str">'~&gt; 3.12'</span>
+<span class="fn">gem</span> <span class="str">'sidekiq'</span>, <span class="str">'~&gt; 6.5'</span>
+
+<span class="cmt"># JSON API</span>
+<span class="fn">gem</span> <span class="str">'jbuilder'</span>, <span class="str">'~&gt; 2.7'</span>
+
+<span class="cmt"># Background jobs</span>
+<span class="fn">gem</span> <span class="str">'redis'</span>, <span class="str">'~&gt; 4.0'</span>
+
+<span class="cmt"># Payment processing</span>
+<span class="fn">gem</span> <span class="str">'stripe'</span>, <span class="str">'~&gt; 7.0'</span>
+
+<span class="cmt"># Email</span>
+<span class="fn">gem</span> <span class="str">'sendgrid-ruby'</span>, <span class="str">'~&gt; 6.6'</span>
+
+<span class="kw">group</span> <span class="sym">:development</span>, <span class="sym">:test</span> <span class="kw">do</span>
+  <span class="fn">gem</span> <span class="str">'byebug'</span>, <span class="fn">platforms:</span> [<span class="sym">:mri</span>, <span class="sym">:mingw</span>, <span class="sym">:x64_mingw</span>]
+  <span class="fn">gem</span> <span class="str">'rspec-rails'</span>, <span class="str">'~&gt; 5.0'</span>
+<span class="kw">end</span></code></pre>
+</body>
+</html>

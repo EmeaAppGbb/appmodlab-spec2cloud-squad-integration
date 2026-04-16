@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>routes.rb — Legacy API Routes</title>
+<style>
+  body { margin:0; padding:32px; background:#1e1e2e; font-family:'Cascadia Code','Fira Code',monospace; }
+  .header { color:#cdd6f4; font-size:13px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .badge { background:#f38ba8; color:#1e1e2e; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; }
+  .badge-green { background:#a6e3a1; }
+  pre { margin:0; padding:24px; background:#181825; border-radius:8px; border:1px solid #313244; overflow-x:auto; line-height:1.6; font-size:14px; }
+  .kw { color:#cba6f7; }
+  .str { color:#a6e3a1; }
+  .fn { color:#89b4fa; }
+  .sym { color:#f9e2af; }
+  .cmt { color:#6c7086; font-style:italic; }
+  code { color:#cdd6f4; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="badge">Ruby</span>
+  <span class="badge badge-green">Routes</span>
+  legacy/config/routes.rb — UrbanNest API Endpoints
+</div>
+<pre><code><span class="kw">Rails</span>.application.routes.draw <span class="kw">do</span>
+  <span class="fn">resources</span> <span class="sym">:properties</span>
+  <span class="fn">resources</span> <span class="sym">:tenants</span> <span class="kw">do</span>
+    <span class="fn">resources</span> <span class="sym">:applications</span>, <span class="fn">controller:</span> <span class="str">'tenant_applications'</span>
+  <span class="kw">end</span>
+  <span class="fn">resources</span> <span class="sym">:leases</span>
+  <span class="fn">resources</span> <span class="sym">:maintenance_requests</span>, <span class="fn">path:</span> <span class="str">'maintenance/requests'</span>
+
+  <span class="fn">root</span> <span class="str">'properties#index'</span>
+<span class="kw">end</span></code></pre>
+</body>
+</html>
