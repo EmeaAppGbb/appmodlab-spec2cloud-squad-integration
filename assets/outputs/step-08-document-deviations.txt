@@ -1,0 +1,26 @@
+ÔùÅ List directory specs
+  Ôöö 2 files found
+
+ÔùÅ Read step-07b-spec-validation.txt
+  Ôöé assets\outputs\step-07b-spec-validation.txt
+  Ôöö 264 lines read
+
+Now I have all the details. Let me create the deviations document.
+
+ÔùÅ Create deviations.md +99
+  Ôöö specs\deviations.md
+
+Created `specs/deviations.md` with all 5 deviations documented. Each entry includes:
+
+- **DEV-001** (P1, M): TenantApplication resource missing entirely
+- **DEV-002** (P1, S): No `end_date > start_date` cross-field validation on lease DTO
+- **DEV-003** (P2, S): `monthly_rent` accepts zero ÔÇö should use `@IsPositive()`
+- **DEV-004** (P2, M): Maintenance status can be set directly ÔÇö no state machine guard
+- **DEV-005** (P3, M): No auto-notification on maintenance request creation
+
+The document also includes a summary matrix and priority/effort definitions.
+
+
+Changes   +99 -0
+Requests  3 Premium (55s)
+Tokens    Ôåæ 101.6k ÔÇó Ôåô 2.4k ÔÇó 69.0k (cached)

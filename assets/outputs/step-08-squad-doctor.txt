@@ -1,0 +1,19 @@
+
+­ƒ®║ Squad Doctor
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+Mode: local
+
+Ô£à  .squad/ directory exists ÔÇö directory present
+Ô£à  config.json valid ÔÇö parses as JSON, schema OK
+Ô£à  team.md found with ## Members header ÔÇö file present, header found
+Ô£à  routing.md found ÔÇö file present
+Ô£à  agents/ directory exists ÔÇö directory present (2 agents)
+ÔØî  casting/registry.json exists ÔÇö file not found
+Ô£à  decisions.md exists ÔÇö file present
+Ô£à  Node.js ÔëÑ22.5.0 (node:sqlite) ÔÇö v24.14.1 ÔÇö node:sqlite available
+ÔÜá´©Å  vscode-jsonrpc exports field ÔÇö vscode-jsonrpc not found in node_modules
+ÔÜá´©Å  copilot-sdk session.js ESM patch ÔÇö @github/copilot-sdk not found in node_modules
+
+Summary: 7 passed, 1 failed, 2 warnings
+
