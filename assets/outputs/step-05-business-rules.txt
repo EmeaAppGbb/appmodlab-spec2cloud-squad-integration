@@ -1,0 +1,52 @@
+ÔùÅ List directory legacy\app\models
+  Ôöö 4 files found
+
+ÔùÅ Read lease.rb
+  Ôöé legacy\app\models\lease.rb
+  Ôöö 19 lines read
+
+ÔùÅ Read maintenance_request.rb
+  Ôöé legacy\app\models\maintenance_request.rb
+  Ôöö 22 lines read
+
+ÔùÅ Read tenant.rb
+  Ôöé legacy\app\models\tenant.rb
+  Ôöö 16 lines read
+
+ÔùÅ Read property.rb
+  Ôöé legacy\app\models\property.rb
+  Ôöö 11 lines read
+
+Now I have all the model details. Let me check the existing specs directory and then create the business rules docs.
+
+ÔùÅ List directory specs
+  Ôöö 1 file found
+
+ÔùÅ Create business-rules directory (shell)
+  Ôöé New-Item -ItemType Directory -Path "C:\code\gbb\labs\appmodlab-spec2cloud-sq
+  Ôöé uad-integration\specs\business-rules" -Force
+  Ôöö 4 lines...
+
+ÔùÅ Create tenant-screening.md +152
+  Ôöö specs\business-rules\tenant-screening.md
+
+ÔùÅ Create maintenance-workflow.md +173
+  Ôöö specs\business-rules\maintenance-workflow.md
+
+ÔùÅ Create lease-calculations.md +150
+  Ôöö specs\business-rules\lease-calculations.md
+
+All three business rules specs have been created in `specs/business-rules/`:
+
+1. **`lease-calculations.md`** ÔÇö Documents `calculate_total_cost` (30-day ceil formula with examples), `is_renewable?` (>30 days + active, strict `>`), `expiring_soon` scope (Ôëñ60 days, inclusive), validations, the 31ÔÇô60 day overlap between renewable and expiring_soon, and edge cases like negative dates.
+
+2. **`maintenance-workflow.md`** ÔÇö Full lifecycle diagram (`openÔåÆassignedÔåÆin_progressÔåÆcompletedÔåÆclosed`), all 5 categories, 4 priority levels with recommended SLAs, the `high_priority` scope, auto-notification via `MaintenanceMailer`, and invalid transitions to enforce in the new system.
+
+3. **`tenant-screening.md`** ÔÇö Email uniqueness/format rules, required fields, `active_leases` tracking, relationship diagram, and recommendations for screening enhancements (credit, background checks, income verification).
+
+Each doc includes source references, edge cases, examples, and recommendations for improvements in the new system.
+
+
+Changes   +475 -0
+Requests  3 Premium (2m 9s)
+Tokens    Ôåæ 166.9k ÔÇó Ôåô 6.4k ÔÇó 140.0k (cached)
