@@ -100,3 +100,94 @@ The `assets/screenshots/` directory contains syntax-highlighted HTML renderings 
 | 4 | [`legacy-routes.html`](assets/screenshots/legacy-routes.html) | Legacy Routes — API Endpoint Map |
 | 5 | [`properties-controller.html`](assets/screenshots/properties-controller.html) | PropertiesController — Legacy CRUD API |
 | 6 | [`domain-models.html`](assets/screenshots/domain-models.html) | Domain Models — Property, Lease, Tenant, MaintenanceRequest |
+
+## Solution Walkthrough
+
+The solution branch (`solution-final`) demonstrates the full Spec2Cloud × SQUAD integration pipeline across 9 steps. Each step is tagged for easy checkout.
+
+### CLI Commands Used
+
+#### Step 01: Review Specifications (Spec2Cloud)
+```bash
+gh copilot -- -p "Analyze the legacy Ruby on Rails 5.2 property management application in the legacy/ directory..." --allow-all-tools --yolo
+```
+**Output:** `specs/architecture/system-overview.md` — comprehensive architecture analysis of the Rails 5.2 monolith including domain models, API endpoints, business rules, and integration points.
+
+#### Step 02: Configure SQUAD (Squad CLI)
+```bash
+npx @bradygaster/squad-cli init --roles
+```
+**Output:** `.squad/` workspace with scribe and ralph agents, ceremonies, routing, skills, and CI workflows.
+
+#### Step 03: Brain Planning (Squad CLI)
+```bash
+npx @bradygaster/squad-cli roles
+npx @bradygaster/squad-cli hire lead backend frontend tester devops docs
+```
+**Output:** Listed 20 available roles and hired a team of 6 specialists for the modernization effort.
+
+#### Step 04: Implement APIs (Spec2Cloud)
+```bash
+gh copilot -- -p "Generate a NestJS TypeScript API for the UrbanNest property management platform..." --allow-all-tools --yolo
+```
+**Output:** `api/` — NestJS TypeScript API with 4 domain modules (properties, tenants, leases, maintenance), TypeORM entities, DTOs with class-validator, and Swagger/OpenAPI decorators. 22 source files, 1225 lines.
+
+#### Step 05: Implement Business Rules (Spec2Cloud)
+```bash
+gh copilot -- -p "Generate detailed business rules specifications..." --allow-all-tools --yolo
+```
+**Output:** `specs/business-rules/` — 3 specification documents:
+- `lease-calculations.md` — cost formulas, renewability, expiry detection
+- `maintenance-workflow.md` — lifecycle states, categories, priorities, SLAs
+- `tenant-screening.md` — validation rules, email uniqueness, active lease tracking
+
+#### Step 06: Build Analytics Service (Spec2Cloud)
+```bash
+gh copilot -- -p "Generate a Python FastAPI analytics service..." --allow-all-tools --yolo
+```
+**Output:** `analytics/` — Python FastAPI service with 3 analytics routers (properties, leases, maintenance), Pydantic schemas, async SQLAlchemy database layer. 854 lines.
+
+#### Step 07: Spec-Based Review (Squad CLI + Spec2Cloud)
+```bash
+npx @bradygaster/squad-cli status
+gh copilot -- -p "Perform a spec-based code review of the UrbanNest implementation..." --allow-all-tools --yolo
+```
+**Output:** Spec conformance report — **42/47 checks passed**, 5 deviations identified across 5 review areas (domain models, CRUD endpoints, lease business rules, maintenance workflow, analytics).
+
+#### Step 08: Document Deviations (Squad CLI + Spec2Cloud)
+```bash
+npx @bradygaster/squad-cli doctor
+gh copilot -- -p "Create a formal deviation document..." --allow-all-tools --yolo
+```
+**Output:** `specs/deviations.md` — 5 deviations documented with ID, spec reference, rationale, priority (P1–P3), and estimated effort (S/M).
+
+#### Step 09: Validate Conformance (Spec2Cloud)
+```bash
+gh copilot -- -p "Generate OpenAPI 3.1 specification files..." --allow-all-tools --yolo
+```
+**Output:** `specs/api/` — 4 OpenAPI 3.1 YAML files, `specs/data/entity-model.md`, `specs/data/schema.sql`. All schemas validated against TypeORM entities.
+
+### Tags Reference
+
+| Tag | Step | Description |
+|-----|------|-------------|
+| `step-01-spec-review` | 01 | Spec2Cloud legacy analysis |
+| `step-02-configure-squad` | 02 | Squad workspace initialization |
+| `step-03-brain-planning` | 03 | Team roles and hiring |
+| `step-04-api-implementation` | 04 | NestJS API generation |
+| `step-05-business-rules` | 05 | Business rules specifications |
+| `step-06-analytics-service` | 06 | Python FastAPI analytics |
+| `step-07-spec-review` | 07 | Spec conformance validation |
+| `step-08-document-deviations` | 08 | Deviation documentation |
+| `step-09-validate-conformance` | 09 | OpenAPI specs and schema |
+
+### Conformance Summary
+
+| Area | Checks | Pass | Deviations |
+|------|--------|------|------------|
+| Domain Models & Schema | 11 | 11 | 0 |
+| CRUD Endpoints | 9 | 8 | 1 |
+| Lease Business Rules | 8 | 6 | 2 |
+| Maintenance Workflow | 8 | 6 | 2 |
+| Analytics Service | 11 | 11 | 0 |
+| **Total** | **47** | **42** | **5** |
