@@ -1,0 +1,264 @@
+ÔùÅ List directory .
+  Ôöö 15 files found
+
+ÔùÅ List directory specs
+  Ôöö 2 files found
+
+ÔùÅ List directory analytics
+  Ôöö 6 files found
+
+ÔùÅ List directory api\src
+  Ôöö 6 files found
+
+ÔùÅ List directory specs\architecture
+  Ôöö 1 file found
+
+ÔùÅ List directory specs\business-rules
+  Ôöö 3 files found
+
+ÔùÅ List directory api\src\maintenance
+  Ôöö 5 files found
+
+ÔùÅ List directory api\src\leases
+  Ôöö 5 files found
+
+ÔùÅ List directory analytics\models
+  Ôöö 2 files found
+
+ÔùÅ List directory analytics\routers
+  Ôöö 4 files found
+
+ÔùÅ List directory api\src\properties
+  Ôöö 5 files found
+
+ÔùÅ List directory api\src\tenants
+  Ôöö 5 files found
+
+Now let me read all the spec files and implementation files in parallel:
+
+ÔùÅ Read system-overview.md
+  Ôöé specs\architecture\system-overview.md
+  Ôöö 279 lines read
+
+ÔùÅ Read tenant-screening.md
+  Ôöé specs\business-rules\tenant-screening.md
+  Ôöö 151 lines read
+
+ÔùÅ Read lease-calculations.md
+  Ôöé specs\business-rules\lease-calculations.md
+  Ôöö 149 lines read
+
+ÔùÅ Read maintenance-workflow.md
+  Ôöé specs\business-rules\maintenance-workflow.md
+  Ôöö 172 lines read
+
+ÔùÅ Read property.entity.ts
+  Ôöé api\src\properties\property.entity.ts
+  Ôöö 77 lines read
+
+ÔùÅ Read tenant.entity.ts
+  Ôöé api\src\tenants\tenant.entity.ts
+  Ôöö 50 lines read
+
+ÔùÅ Read maintenance-request.entity.ts
+  Ôöé api\src\maintenance\maintenance-request.entity.ts
+  Ôöö 84 lines read
+
+ÔùÅ Read lease.entity.ts
+  Ôöé api\src\leases\lease.entity.ts
+  Ôöö 79 lines read
+
+ÔùÅ Read maintenance.service.ts
+  Ôöé api\src\maintenance\maintenance.service.ts
+  Ôöö 67 lines read
+
+ÔùÅ Read leases.service.ts
+  Ôöé api\src\leases\leases.service.ts
+  Ôöö 73 lines read
+
+ÔùÅ Read leases.controller.ts
+  Ôöé api\src\leases\leases.controller.ts
+  Ôöö 99 lines read
+
+ÔùÅ Read maintenance_analytics.py
+  Ôöé analytics\routers\maintenance_analytics.py
+  Ôöö 191 lines read
+
+ÔùÅ Read properties_analytics.py
+  Ôöé analytics\routers\properties_analytics.py
+  Ôöö 140 lines read
+
+ÔùÅ Read lease_analytics.py
+  Ôöé analytics\routers\lease_analytics.py
+  Ôöö 195 lines read
+
+ÔùÅ Read schemas.py
+  Ôöé analytics\models\schemas.py
+  Ôöö 222 lines read
+
+ÔùÅ Read main.py
+  Ôöé analytics\main.py
+  Ôöö 61 lines read
+
+ÔùÅ Read maintenance.controller.ts
+  Ôöé api\src\maintenance\maintenance.controller.ts
+  Ôöö 81 lines read
+
+ÔùÅ Read tenants.controller.ts
+  Ôöé api\src\tenants\tenants.controller.ts
+  Ôöö 67 lines read
+
+ÔùÅ Read properties.controller.ts
+  Ôöé api\src\properties\properties.controller.ts
+  Ôöö 68 lines read
+
+Let me check the remaining DTOs and service files:
+
+ÔùÅ Read tenants.service.ts
+  Ôöé api\src\tenants\tenants.service.ts
+  Ôöö 53 lines read
+
+ÔùÅ Read properties.service.ts
+  Ôöé api\src\properties\properties.service.ts
+  Ôöö 42 lines read
+
+ÔùÅ List directory api\src\leases\dto
+  Ôöö 2 files found
+
+ÔùÅ List directory api\src\maintenance\dto
+  Ôöö 2 files found
+
+ÔùÅ Search (glob)
+  Ôöé "api\src\**\dto\*.ts"
+  Ôöö No matches found
+
+ÔùÅ Search (glob)
+  Ôöé "**\dto\*.ts" in api\src
+  Ôöö No matches found
+
+ÔùÅ Search (glob)
+  Ôöé "**/*.dto.ts"
+  Ôöö 8 files found
+
+ÔùÅ Read create-tenant.dto.ts
+  Ôöé api\src\tenants\dto\create-tenant.dto.ts
+  Ôöö 24 lines read
+
+ÔùÅ Read create-lease.dto.ts
+  Ôöé api\src\leases\dto\create-lease.dto.ts
+  Ôöö 34 lines read
+
+ÔùÅ Read create-property.dto.ts
+  Ôöé api\src\properties\dto\create-property.dto.ts
+  Ôöö 65 lines read
+
+ÔùÅ Read app.module.ts
+  Ôöé api\src\app.module.ts
+  Ôöö 26 lines read
+
+ÔùÅ Read create-maintenance-request.dto.ts
+  Ôöé api\src\maintenance\dto\create-maintenance-request.dto.ts
+  Ôöö 42 lines read
+
+I now have all the data needed to produce the conformance report. Here is the full spec conformance report:
+
+---
+
+## UrbanNest Spec Conformance Report
+
+### 1. Domain Models ÔÇö `specs/architecture/system-overview.md` ┬º2
+
+| Spec Section | Implementation File | Status | Notes |
+|---|---|---|---|
+| Property entity ÔÇö all attributes | `api/src/properties/property.entity.ts` | **PASS** | All 10 fields match (address, city, state, zip_code, property_type, bedrooms, bathrooms, square_feet, monthly_rent, is_available). Nullable/required constraints align. |
+| Property ÔÇö property_type enum | `api/src/properties/property.entity.ts:13-18` | **PASS** | Enum values `apartment, house, condo, townhouse` match spec exactly. |
+| Property ÔÇö associations | `api/src/properties/property.entity.ts:66-70` | **PASS** | `OneToMany ÔåÆ Lease` and `OneToMany ÔåÆ MaintenanceRequest` present. Owner association intentionally omitted (not in new system scope). |
+| Tenant entity ÔÇö all attributes | `api/src/tenants/tenant.entity.ts` | **PASS** | Fields `first_name, last_name, email (unique), phone` all present and match. |
+| Tenant ÔÇö fullName computed | `api/src/tenants/tenant.entity.ts:47-49` | **PASS** | Getter `fullName` returns `${firstName} ${lastName}` ÔÇö matches spec. |
+| Tenant ÔÇö email validation | `api/src/tenants/dto/create-tenant.dto.ts:15` | **PASS** | Uses `@IsEmail()` decorator for RFC-compliant format validation. |
+| Lease entity ÔÇö all attributes | `api/src/leases/lease.entity.ts` | **PASS** | Fields `start_date, end_date, monthly_rent, status, property_id, tenant_id` all present. |
+| Lease ÔÇö status enum | `api/src/leases/lease.entity.ts:14-18` | **PASS** | Enum values `active, expired, terminated` match spec exactly. |
+| Lease ÔÇö associations | `api/src/leases/lease.entity.ts:50-55` | **PASS** | `ManyToOne ÔåÆ Property` and `ManyToOne ÔåÆ Tenant` with correct join columns. |
+| MaintenanceRequest entity ÔÇö all attributes | `api/src/maintenance/maintenance-request.entity.ts` | **PASS** | Fields `category, priority, description, status, property_id, tenant_id, vendor_id (optional)` all present. |
+| MaintenanceRequest ÔÇö associations | `api/src/maintenance/maintenance-request.entity.ts:71-77` | **PASS** | `ManyToOne ÔåÆ Property` and `ManyToOne ÔåÆ Tenant` present. Vendor modeled as nullable FK (no Vendor entity ÔÇö acceptable). |
+
+### 2. CRUD Endpoints ÔÇö `specs/architecture/system-overview.md` ┬º3
+
+| Spec Section | Implementation File | Status | Notes |
+|---|---|---|---|
+| Properties: GET /properties | `api/src/properties/properties.controller.ts:27` | **PASS** | Returns available properties (`isAvailable: true` filter in service). |
+| Properties: GET /properties/:id | `api/src/properties/properties.controller.ts:34` | **PASS** | Single property by ID, returns 404 if not found. |
+| Properties: POST /properties | `api/src/properties/properties.controller.ts:42` | **PASS** | Returns 201 on success. |
+| Properties: PUT /properties/:id | `api/src/properties/properties.controller.ts:50` | **PASS** | Update endpoint present. |
+| Properties: DELETE /properties/:id | `api/src/properties/properties.controller.ts:60` | **PASS** | Returns 204 on success. |
+| Tenants: full CRUD | `api/src/tenants/tenants.controller.ts` | **PASS** | All 5 REST endpoints present (GET list, GET by id, POST, PUT, DELETE). |
+| Leases: full CRUD | `api/src/leases/leases.controller.ts` | **PASS** | All 5 REST endpoints present plus bonus `active`, `expiring-soon`, `total-cost`, `renewable` endpoints. |
+| Maintenance: full CRUD | `api/src/maintenance/maintenance.controller.ts` | **PASS** | All 5 REST endpoints at `/maintenance/requests` path ÔÇö matches spec route. Plus `open` and `high-priority` scopes. |
+| Tenant Applications: nested CRUD | N/A | **DEVIATION** | TenantApplication entity and endpoints are **not implemented**. Spec defines `GET/POST/PUT/DELETE /tenants/:tenant_id/applications`. This model/controller is entirely missing. |
+
+### 3. Lease Business Rules ÔÇö `specs/business-rules/lease-calculations.md`
+
+| Spec Section | Implementation File | Status | Notes |
+|---|---|---|---|
+| calculateTotalCost formula | `api/src/leases/lease.entity.ts:65-71` | **PASS** | `Math.ceil(diffDays / 30) * monthlyRent` ÔÇö uses 30-day month ceiling exactly as specified. |
+| calculateTotalCost ÔÇö endpoint | `api/src/leases/leases.controller.ts:53-60` | **PASS** | Exposed via `GET /leases/:id/total-cost`. |
+| isRenewable ÔÇö >30 days + active | `api/src/leases/lease.entity.ts:73-78` | **PASS** | Correctly uses strict `>` (not `>=`) and checks `status === ACTIVE`. Matches spec truth table. |
+| isRenewable ÔÇö endpoint | `api/src/leases/leases.controller.ts:62-69` | **PASS** | Exposed via `GET /leases/:id/renewable`. |
+| expiringSoon ÔÇö 60-day window | `api/src/leases/leases.service.ts:37-48` | **PASS** | Uses `LessThanOrEqual(sixtyDaysFromNow)` with `status: ACTIVE`. Matches `end_date Ôëñ NOW + 60 days AND status = 'active'`. |
+| expiringSoon ÔÇö endpoint | `api/src/leases/leases.controller.ts:38-43` | **PASS** | Exposed via `GET /leases/expiring-soon`. |
+| Active scope | `api/src/leases/leases.service.ts:30-35` | **PASS** | Filters `status: ACTIVE`, exposed at `GET /leases/active`. |
+| Validation: end_date > start_date | `api/src/leases/dto/create-lease.dto.ts` | **DEVIATION** | Spec recommends validation but DTO only checks `@IsDateString()` + `@IsNotEmpty()`. No cross-field `end_date > start_date` validation. |
+| Validation: monthly_rent > 0 | `api/src/leases/dto/create-lease.dto.ts:29` | **DEVIATION** | Uses `@Min(0)` ÔÇö allows `0`. Spec recommends `> 0`. |
+
+### 4. Maintenance Workflow ÔÇö `specs/business-rules/maintenance-workflow.md`
+
+| Spec Section | Implementation File | Status | Notes |
+|---|---|---|---|
+| Status enum values | `api/src/maintenance/maintenance-request.entity.ts:29-35` | **PASS** | `open, assigned, in_progress, completed, closed` ÔÇö all 5 match exactly. |
+| Status default on create | `api/src/maintenance/maintenance-request.entity.ts:68` | **PASS** | Default is `MaintenanceStatus.OPEN`, matching the workflow start state. |
+| Category enum values | `api/src/maintenance/maintenance-request.entity.ts:14-20` | **PASS** | `plumbing, electrical, hvac, appliance, other` ÔÇö all 5 match exactly. |
+| Priority enum values | `api/src/maintenance/maintenance-request.entity.ts:22-27` | **PASS** | `low, medium, high, emergency` ÔÇö all 4 match exactly. |
+| High-priority scope | `api/src/maintenance/maintenance.service.ts:43-49` | **PASS** | Uses `In([HIGH, EMERGENCY])` ÔÇö matches spec `priority IN ('high', 'emergency')`. |
+| Open scope | `api/src/maintenance/maintenance.service.ts:36-41` | **PASS** | Filters `status: OPEN`. |
+| State transition enforcement | `api/src/maintenance/maintenance.service.ts:57-60` | **DEVIATION** | No state machine. Any valid status can be set via `update()` ÔÇö same gap as legacy. Spec ┬º2 recommends enforcing transitions. |
+| Auto-notification on create | `api/src/maintenance/maintenance.service.ts:52-54` | **DEVIATION** | No notification dispatched on create. Spec specifies `after_create ÔåÆ MaintenanceMailer.request_created` (async). Not implemented. |
+
+### 5. Analytics Service ÔÇö `analytics/` vs Specs
+
+| Spec Section | Implementation File | Status | Notes |
+|---|---|---|---|
+| Property types enum | `analytics/models/schemas.py:20-24` | **PASS** | `apartment, house, condo, townhouse` ÔÇö matches spec. |
+| Lease status enum | `analytics/models/schemas.py:27-30` | **PASS** | `active, expired, terminated` ÔÇö matches spec. |
+| Maintenance category enum | `analytics/models/schemas.py:33-38` | **PASS** | `plumbing, electrical, hvac, appliance, other` ÔÇö matches spec. |
+| Maintenance priority enum | `analytics/models/schemas.py:41-45` | **PASS** | `low, medium, high, emergency` ÔÇö matches spec. |
+| Maintenance status enum | `analytics/models/schemas.py:48-53` | **PASS** | `open, assigned, in_progress, completed, closed` ÔÇö matches spec. |
+| Expiring leases ÔÇö 60-day window | `analytics/routers/lease_analytics.py:80-96` | **PASS** | SQL: `end_date <= CURRENT_DATE + INTERVAL '60 days' AND status = 'active'`. Default `window_days=60`. Matches spec. |
+| Renewable check in SQL | `analytics/routers/lease_analytics.py:88-89` | **PASS** | SQL: `end_date > CURRENT_DATE + INTERVAL '30 days' AND status = 'active'`. Strict `>` matches spec. |
+| High-priority scope | `analytics/routers/maintenance_analytics.py:149` | **PASS** | SQL: `priority IN ('high', 'emergency')`. Matches spec. |
+| Open scope | `analytics/routers/maintenance_analytics.py:147-156` | **PASS** | SQL: `status = 'open'`. Matches spec. |
+| Occupancy = active leases | `analytics/routers/lease_analytics.py:41-56` | **PASS** | Counts distinct `property_id` from leases where `status = 'active'`. Correct. |
+| Revenue forecast ÔÇö overlap logic | `analytics/routers/lease_analytics.py:154-161` | **PASS** | Uses `start_date <= month_end AND end_date >= month_start` for overlap ÔÇö sound logic. Does **not** use `ceil(days/30)` formula (uses monthly overlap instead) ÔÇö appropriate for forecasting. |
+
+### Summary
+
+| Area | Total Checks | PASS | DEVIATION |
+|---|---|---|---|
+| Domain Models & Schema | 11 | 11 | 0 |
+| CRUD Endpoints | 9 | 8 | 1 |
+| Lease Business Rules | 8 | 6 | 2 |
+| Maintenance Workflow | 8 | 6 | 2 |
+| Analytics Service | 11 | 11 | 0 |
+| **Total** | **47** | **42** | **5** |
+
+### Deviation Details
+
+1. **TenantApplication not implemented** ÔÇö Spec defines a full nested CRUD resource at `/tenants/:tenant_id/applications`. No entity, controller, or module exists.
+2. **No `end_date > start_date` validation** ÔÇö Lease DTO accepts any two dates. Spec explicitly recommends guarding against `end_date < start_date`.
+3. **`monthly_rent` allows zero** ÔÇö DTO uses `@Min(0)`. Spec recommends `> 0`.
+4. **No maintenance state transition enforcement** ÔÇö Status can be set to any valid value directly. Spec recommends a state machine.
+5. **No auto-notification on maintenance create** ÔÇö The `after_create ÔåÆ notify_property_manager` callback is not implemented.
+
+
+Changes   +0 -0
+Requests  3 Premium (1m 55s)
+Tokens    Ôåæ 452.9k ÔÇó Ôåô 6.2k ÔÇó 362.2k (cached)

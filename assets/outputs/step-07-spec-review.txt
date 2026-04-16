@@ -1,0 +1,11 @@
+
+[1mSquad Status[0m
+
+  Active squad: [1mrepo[0m
+  Path:         C:\code\gbb\labs\appmodlab-spec2cloud-squad-integration\.squad
+  Reason:       Found .squad/ in repository tree
+
+  [2mRepo resolution:   C:\code\gbb\labs\appmodlab-spec2cloud-squad-integration\.squad[0m
+  [2mGlobal path:       C:\Users\madasi\AppData\Roaming\squad[0m
+  [2mGlobal squad:      not initialized[0m
+
