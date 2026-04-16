@@ -1,0 +1,376 @@
+openapi: 3.1.0
+info:
+  title: UrbanNest Leases API
+  description: >-
+    CRUD endpoints for managing leases plus convenience queries for active
+    leases, expiring-soon leases, total cost calculation, and renewability checks.
+  version: "1.0"
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /leases:
+    get:
+      tags: [Leases]
+      operationId: listLeases
+      summary: List all leases
+      description: Returns all leases with their related property and tenant.
+      responses:
+        "200":
+          description: An array of leases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lease"
+              example:
+                - id: 1
+                  propertyId: 1
+                  tenantId: 1
+                  startDate: "2026-05-01"
+                  endDate: "2027-04-30"
+                  monthlyRent: 1500.00
+                  status: "active"
+                  createdAt: "2026-01-15T08:00:00.000Z"
+                  updatedAt: "2026-01-15T08:00:00.000Z"
+
+    post:
+      tags: [Leases]
+      operationId: createLease
+      summary: Create a new lease
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLeaseDto"
+            example:
+              propertyId: 1
+              tenantId: 1
+              startDate: "2026-05-01"
+              endDate: "2027-04-30"
+              monthlyRent: 1500.00
+              status: "active"
+      responses:
+        "201":
+          description: Lease created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lease"
+        "422":
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /leases/active:
+    get:
+      tags: [Leases]
+      operationId: listActiveLeases
+      summary: List active leases
+      description: Returns leases where status is "active".
+      responses:
+        "200":
+          description: An array of active leases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lease"
+
+  /leases/expiring-soon:
+    get:
+      tags: [Leases]
+      operationId: listExpiringSoonLeases
+      summary: List active leases expiring within 60 days
+      description: >-
+        Returns active leases whose end date is within 60 days from today.
+      responses:
+        "200":
+          description: An array of leases expiring soon
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lease"
+
+  /leases/{id}:
+    parameters:
+      - $ref: "#/components/parameters/LeaseId"
+
+    get:
+      tags: [Leases]
+      operationId: getLease
+      summary: Get a lease by ID
+      responses:
+        "200":
+          description: The requested lease
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lease"
+        "404":
+          description: Lease not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    put:
+      tags: [Leases]
+      operationId: updateLease
+      summary: Update a lease
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateLeaseDto"
+            example:
+              status: "terminated"
+      responses:
+        "200":
+          description: Lease updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lease"
+        "404":
+          description: Lease not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    delete:
+      tags: [Leases]
+      operationId: deleteLease
+      summary: Delete a lease
+      responses:
+        "204":
+          description: Lease deleted
+        "404":
+          description: Lease not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+  /leases/{id}/total-cost:
+    parameters:
+      - $ref: "#/components/parameters/LeaseId"
+
+    get:
+      tags: [Leases]
+      operationId: getLeaseTotalCost
+      summary: Calculate total cost of a lease
+      description: >-
+        Estimates total lease cost: ceil((endDate − startDate) / 30) × monthlyRent.
+      responses:
+        "200":
+          description: Total cost calculation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TotalCostResponse"
+              example:
+                totalCost: 18000.00
+        "404":
+          description: Lease not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+  /leases/{id}/renewable:
+    parameters:
+      - $ref: "#/components/parameters/LeaseId"
+
+    get:
+      tags: [Leases]
+      operationId: checkLeaseRenewable
+      summary: Check if a lease is renewable
+      description: >-
+        Returns true if the lease end date is more than 30 days from now
+        AND the lease status is "active".
+      responses:
+        "200":
+          description: Renewability check result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RenewableResponse"
+              example:
+                renewable: true
+        "404":
+          description: Lease not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+components:
+  parameters:
+    LeaseId:
+      name: id
+      in: path
+      required: true
+      description: Unique lease identifier
+      schema:
+        type: integer
+        minimum: 1
+
+  schemas:
+    LeaseStatus:
+      type: string
+      enum: [active, expired, terminated]
+
+    Lease:
+      type: object
+      required:
+        - id
+        - propertyId
+        - tenantId
+        - startDate
+        - endDate
+        - monthlyRent
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Auto-generated primary key
+          examples: [1]
+        propertyId:
+          type: integer
+          description: FK → properties.id
+          examples: [1]
+        tenantId:
+          type: integer
+          description: FK → tenants.id
+          examples: [1]
+        startDate:
+          type: string
+          format: date
+          examples: ["2026-05-01"]
+        endDate:
+          type: string
+          format: date
+          examples: ["2027-04-30"]
+        monthlyRent:
+          type: number
+          format: decimal
+          minimum: 0
+          description: "Decimal(10,2)"
+          examples: [1500.00]
+        status:
+          $ref: "#/components/schemas/LeaseStatus"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateLeaseDto:
+      type: object
+      required:
+        - propertyId
+        - tenantId
+        - startDate
+        - endDate
+        - monthlyRent
+        - status
+      properties:
+        propertyId:
+          type: integer
+        tenantId:
+          type: integer
+        startDate:
+          type: string
+          format: date
+          description: ISO 8601 date string
+        endDate:
+          type: string
+          format: date
+          description: ISO 8601 date string
+        monthlyRent:
+          type: number
+          minimum: 0
+        status:
+          $ref: "#/components/schemas/LeaseStatus"
+
+    UpdateLeaseDto:
+      description: All fields are optional (partial update).
+      type: object
+      properties:
+        propertyId:
+          type: integer
+        tenantId:
+          type: integer
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        monthlyRent:
+          type: number
+          minimum: 0
+        status:
+          $ref: "#/components/schemas/LeaseStatus"
+
+    TotalCostResponse:
+      type: object
+      required: [totalCost]
+      properties:
+        totalCost:
+          type: number
+          description: "ceil((endDate − startDate in days) / 30) × monthlyRent"
+          examples: [18000.00]
+
+    RenewableResponse:
+      type: object
+      required: [renewable]
+      properties:
+        renewable:
+          type: boolean
+          description: "true if endDate > 30 days from now AND status is active"
+          examples: [true]
+
+    ValidationError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [422]
+        message:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        error:
+          type: string
+          examples: ["Unprocessable Entity"]
+
+    NotFoundError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [404]
+        message:
+          type: string
+          examples: ["Lease #42 not found"]
+        error:
+          type: string
+          examples: ["Not Found"]

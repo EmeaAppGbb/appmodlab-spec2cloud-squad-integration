@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: UrbanNest Tenants API
+  description: CRUD endpoints for managing tenants in the UrbanNest platform.
+  version: "1.0"
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /tenants:
+    get:
+      tags: [Tenants]
+      operationId: listTenants
+      summary: List all tenants
+      responses:
+        "200":
+          description: An array of tenants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tenant"
+              example:
+                - id: 1
+                  firstName: "Jane"
+                  lastName: "Doe"
+                  email: "jane.doe@example.com"
+                  phone: "206-555-1234"
+                  createdAt: "2026-01-15T08:00:00.000Z"
+                  updatedAt: "2026-01-15T08:00:00.000Z"
+
+    post:
+      tags: [Tenants]
+      operationId: createTenant
+      summary: Create a new tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTenantDto"
+            example:
+              firstName: "Jane"
+              lastName: "Doe"
+              email: "jane.doe@example.com"
+              phone: "206-555-1234"
+      responses:
+        "201":
+          description: Tenant created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        "422":
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /tenants/{id}:
+    parameters:
+      - $ref: "#/components/parameters/TenantId"
+
+    get:
+      tags: [Tenants]
+      operationId: getTenant
+      summary: Get a tenant by ID
+      responses:
+        "200":
+          description: The requested tenant
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        "404":
+          description: Tenant not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    put:
+      tags: [Tenants]
+      operationId: updateTenant
+      summary: Update a tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTenantDto"
+            example:
+              phone: "206-555-9999"
+      responses:
+        "200":
+          description: Tenant updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        "404":
+          description: Tenant not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    delete:
+      tags: [Tenants]
+      operationId: deleteTenant
+      summary: Delete a tenant
+      responses:
+        "204":
+          description: Tenant deleted
+        "404":
+          description: Tenant not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+components:
+  parameters:
+    TenantId:
+      name: id
+      in: path
+      required: true
+      description: Unique tenant identifier
+      schema:
+        type: integer
+        minimum: 1
+
+  schemas:
+    Tenant:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - phone
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Auto-generated primary key
+          examples: [1]
+        firstName:
+          type: string
+          examples: ["Jane"]
+        lastName:
+          type: string
+          examples: ["Doe"]
+        email:
+          type: string
+          format: email
+          description: Must be unique across all tenants
+          examples: ["jane.doe@example.com"]
+        phone:
+          type: string
+          examples: ["206-555-1234"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateTenantDto:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - phone
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        phone:
+          type: string
+          minLength: 1
+
+    UpdateTenantDto:
+      description: All fields are optional (partial update).
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+
+    ValidationError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [422]
+        message:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        error:
+          type: string
+          examples: ["Unprocessable Entity"]
+
+    NotFoundError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [404]
+        message:
+          type: string
+          examples: ["Tenant #42 not found"]
+        error:
+          type: string
+          examples: ["Not Found"]

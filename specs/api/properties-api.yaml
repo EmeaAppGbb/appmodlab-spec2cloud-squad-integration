@@ -1,0 +1,325 @@
+openapi: 3.1.0
+info:
+  title: UrbanNest Properties API
+  description: CRUD endpoints for managing rental properties in the UrbanNest platform.
+  version: "1.0"
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /properties:
+    get:
+      tags: [Properties]
+      operationId: listProperties
+      summary: List available properties
+      responses:
+        "200":
+          description: An array of properties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Property"
+              example:
+                - id: 1
+                  address: "123 Main St"
+                  city: "Seattle"
+                  state: "WA"
+                  zipCode: "98101"
+                  propertyType: "apartment"
+                  bedrooms: 2
+                  bathrooms: 1
+                  squareFeet: 850
+                  monthlyRent: 1500.00
+                  isAvailable: true
+                  createdAt: "2026-01-15T08:00:00.000Z"
+                  updatedAt: "2026-01-15T08:00:00.000Z"
+
+    post:
+      tags: [Properties]
+      operationId: createProperty
+      summary: Create a new property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePropertyDto"
+            example:
+              address: "123 Main St"
+              city: "Seattle"
+              state: "WA"
+              zipCode: "98101"
+              propertyType: "apartment"
+              bedrooms: 2
+              bathrooms: 1
+              squareFeet: 850
+              monthlyRent: 1500.00
+              isAvailable: true
+      responses:
+        "201":
+          description: Property created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+        "422":
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /properties/{id}:
+    parameters:
+      - $ref: "#/components/parameters/PropertyId"
+
+    get:
+      tags: [Properties]
+      operationId: getProperty
+      summary: Get a property by ID
+      responses:
+        "200":
+          description: The requested property
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+        "404":
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    put:
+      tags: [Properties]
+      operationId: updateProperty
+      summary: Update a property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePropertyDto"
+            example:
+              monthlyRent: 1600.00
+              isAvailable: false
+      responses:
+        "200":
+          description: Property updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+        "404":
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+        "422":
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+    delete:
+      tags: [Properties]
+      operationId: deleteProperty
+      summary: Delete a property
+      responses:
+        "204":
+          description: Property deleted
+        "404":
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+components:
+  parameters:
+    PropertyId:
+      name: id
+      in: path
+      required: true
+      description: Unique property identifier
+      schema:
+        type: integer
+        minimum: 1
+
+  schemas:
+    PropertyType:
+      type: string
+      enum: [apartment, house, condo, townhouse]
+
+    Property:
+      type: object
+      required:
+        - id
+        - address
+        - city
+        - state
+        - zipCode
+        - propertyType
+        - monthlyRent
+        - isAvailable
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Auto-generated primary key
+          examples: [1]
+        address:
+          type: string
+          examples: ["123 Main St"]
+        city:
+          type: string
+          examples: ["Seattle"]
+        state:
+          type: string
+          examples: ["WA"]
+        zipCode:
+          type: string
+          examples: ["98101"]
+        propertyType:
+          $ref: "#/components/schemas/PropertyType"
+        bedrooms:
+          type: integer
+          minimum: 0
+          nullable: true
+          examples: [2]
+        bathrooms:
+          type: integer
+          minimum: 0
+          nullable: true
+          examples: [1]
+        squareFeet:
+          type: integer
+          minimum: 0
+          nullable: true
+          examples: [850]
+        monthlyRent:
+          type: number
+          format: decimal
+          minimum: 0
+          description: "Decimal(10,2)"
+          examples: [1500.00]
+        isAvailable:
+          type: boolean
+          default: true
+          examples: [true]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreatePropertyDto:
+      type: object
+      required:
+        - address
+        - city
+        - state
+        - zipCode
+        - propertyType
+        - monthlyRent
+      properties:
+        address:
+          type: string
+          minLength: 1
+        city:
+          type: string
+          minLength: 1
+        state:
+          type: string
+          minLength: 1
+        zipCode:
+          type: string
+          minLength: 1
+        propertyType:
+          $ref: "#/components/schemas/PropertyType"
+        bedrooms:
+          type: integer
+          minimum: 0
+        bathrooms:
+          type: integer
+          minimum: 0
+        squareFeet:
+          type: integer
+          minimum: 0
+        monthlyRent:
+          type: number
+          minimum: 0
+        isAvailable:
+          type: boolean
+          default: true
+
+    UpdatePropertyDto:
+      description: All fields are optional (partial update).
+      type: object
+      properties:
+        address:
+          type: string
+          minLength: 1
+        city:
+          type: string
+          minLength: 1
+        state:
+          type: string
+          minLength: 1
+        zipCode:
+          type: string
+          minLength: 1
+        propertyType:
+          $ref: "#/components/schemas/PropertyType"
+        bedrooms:
+          type: integer
+          minimum: 0
+        bathrooms:
+          type: integer
+          minimum: 0
+        squareFeet:
+          type: integer
+          minimum: 0
+        monthlyRent:
+          type: number
+          minimum: 0
+        isAvailable:
+          type: boolean
+
+    ValidationError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [422]
+        message:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        error:
+          type: string
+          examples: ["Unprocessable Entity"]
+
+    NotFoundError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [404]
+        message:
+          type: string
+          examples: ["Property #42 not found"]
+        error:
+          type: string
+          examples: ["Not Found"]

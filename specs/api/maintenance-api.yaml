@@ -1,0 +1,313 @@
+openapi: 3.1.0
+info:
+  title: UrbanNest Maintenance Requests API
+  description: >-
+    CRUD endpoints for maintenance requests plus convenience queries
+    for open and high-priority requests.
+  version: "1.0"
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /maintenance/requests:
+    get:
+      tags: [Maintenance Requests]
+      operationId: listMaintenanceRequests
+      summary: List all maintenance requests
+      responses:
+        "200":
+          description: An array of maintenance requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MaintenanceRequest"
+              example:
+                - id: 1
+                  propertyId: 1
+                  tenantId: 1
+                  vendorId: null
+                  category: "plumbing"
+                  priority: "high"
+                  description: "Kitchen sink is leaking under the cabinet"
+                  status: "open"
+                  createdAt: "2026-03-10T14:30:00.000Z"
+                  updatedAt: "2026-03-10T14:30:00.000Z"
+
+    post:
+      tags: [Maintenance Requests]
+      operationId: createMaintenanceRequest
+      summary: Create a new maintenance request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMaintenanceRequestDto"
+            example:
+              propertyId: 1
+              tenantId: 1
+              vendorId: null
+              category: "plumbing"
+              priority: "high"
+              description: "Kitchen sink is leaking under the cabinet"
+      responses:
+        "201":
+          description: Maintenance request created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceRequest"
+        "422":
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /maintenance/requests/open:
+    get:
+      tags: [Maintenance Requests]
+      operationId: listOpenMaintenanceRequests
+      summary: List open maintenance requests
+      description: Returns maintenance requests where status is "open".
+      responses:
+        "200":
+          description: An array of open maintenance requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MaintenanceRequest"
+
+  /maintenance/requests/high-priority:
+    get:
+      tags: [Maintenance Requests]
+      operationId: listHighPriorityMaintenanceRequests
+      summary: List high priority and emergency maintenance requests
+      description: >-
+        Returns maintenance requests where priority is "high" or "emergency".
+      responses:
+        "200":
+          description: An array of high-priority maintenance requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MaintenanceRequest"
+
+  /maintenance/requests/{id}:
+    parameters:
+      - $ref: "#/components/parameters/MaintenanceRequestId"
+
+    get:
+      tags: [Maintenance Requests]
+      operationId: getMaintenanceRequest
+      summary: Get a maintenance request by ID
+      responses:
+        "200":
+          description: The requested maintenance request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceRequest"
+        "404":
+          description: Maintenance request not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    put:
+      tags: [Maintenance Requests]
+      operationId: updateMaintenanceRequest
+      summary: Update a maintenance request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateMaintenanceRequestDto"
+            example:
+              status: "in_progress"
+              vendorId: 5
+      responses:
+        "200":
+          description: Maintenance request updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceRequest"
+        "404":
+          description: Maintenance request not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+    delete:
+      tags: [Maintenance Requests]
+      operationId: deleteMaintenanceRequest
+      summary: Delete a maintenance request
+      responses:
+        "204":
+          description: Maintenance request deleted
+        "404":
+          description: Maintenance request not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+
+components:
+  parameters:
+    MaintenanceRequestId:
+      name: id
+      in: path
+      required: true
+      description: Unique maintenance request identifier
+      schema:
+        type: integer
+        minimum: 1
+
+  schemas:
+    MaintenanceCategory:
+      type: string
+      enum: [plumbing, electrical, hvac, appliance, other]
+
+    MaintenancePriority:
+      type: string
+      enum: [low, medium, high, emergency]
+
+    MaintenanceStatus:
+      type: string
+      enum: [open, assigned, in_progress, completed, closed]
+
+    MaintenanceRequest:
+      type: object
+      required:
+        - id
+        - propertyId
+        - tenantId
+        - category
+        - priority
+        - description
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Auto-generated primary key
+          examples: [1]
+        propertyId:
+          type: integer
+          description: FK → properties.id
+          examples: [1]
+        tenantId:
+          type: integer
+          description: FK → tenants.id
+          examples: [1]
+        vendorId:
+          type: integer
+          nullable: true
+          description: Optional FK for assigned vendor
+          examples: [null]
+        category:
+          $ref: "#/components/schemas/MaintenanceCategory"
+        priority:
+          $ref: "#/components/schemas/MaintenancePriority"
+        description:
+          type: string
+          examples: ["Kitchen sink is leaking under the cabinet"]
+        status:
+          $ref: "#/components/schemas/MaintenanceStatus"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateMaintenanceRequestDto:
+      type: object
+      required:
+        - propertyId
+        - tenantId
+        - category
+        - priority
+        - description
+      properties:
+        propertyId:
+          type: integer
+        tenantId:
+          type: integer
+        vendorId:
+          type: integer
+          nullable: true
+        category:
+          $ref: "#/components/schemas/MaintenanceCategory"
+        priority:
+          $ref: "#/components/schemas/MaintenancePriority"
+        description:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/MaintenanceStatus"
+          default: "open"
+          description: Defaults to "open" if not provided.
+
+    UpdateMaintenanceRequestDto:
+      description: All fields are optional (partial update).
+      type: object
+      properties:
+        propertyId:
+          type: integer
+        tenantId:
+          type: integer
+        vendorId:
+          type: integer
+          nullable: true
+        category:
+          $ref: "#/components/schemas/MaintenanceCategory"
+        priority:
+          $ref: "#/components/schemas/MaintenancePriority"
+        description:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/MaintenanceStatus"
+
+    ValidationError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [422]
+        message:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        error:
+          type: string
+          examples: ["Unprocessable Entity"]
+
+    NotFoundError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          examples: [404]
+        message:
+          type: string
+          examples: ["Maintenance request #42 not found"]
+        error:
+          type: string
+          examples: ["Not Found"]
