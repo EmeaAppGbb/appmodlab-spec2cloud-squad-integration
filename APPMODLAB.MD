@@ -11,7 +11,7 @@ modernizationTools: ["Spec2Cloud"]
 agenticTools: ["SQUAD"]
 tags: ["agentic-development", "spec-driven", "openapi", "contract-conformance", "traceability"]
 extensions: ["github.copilot"]
-thumbnail: ""
+thumbnail: "https://raw.githubusercontent.com/EmeaAppGbb/appmodlab-spec2cloud-squad-integration/main/assets/thumbnail-gpt-image.png"
 video: ""
 version: "1.0.0"
 screenshots:
